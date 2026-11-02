@@ -1,0 +1,42 @@
+# Requisições prontas para testar a API à mão.
+# VS Code (extensão REST Client), Rider e Visual Studio executam este arquivo.
+# Antes: dotnet run --project src/Loja.Api  (sobe em http://localhost:5000)
+
+@base = http://localhost:5000
+
+### Catálogo (público)
+GET {{base}}/produtos
+
+### Carrinho da Ana (sem o cabeçalho, a resposta é 401)
+GET {{base}}/carrinho
+X-Cliente-Id: ana
+
+### Adicionar 2 teclados ao carrinho da Ana
+POST {{base}}/carrinho/itens
+X-Cliente-Id: ana
+Content-Type: application/json
+
+{ "produtoId": 1, "quantidade": 2 }
+
+### Passar do limite por item (422, codigo "limite-por-item")
+POST {{base}}/carrinho/itens
+X-Cliente-Id: ana
+Content-Type: application/json
+
+{ "produtoId": 1, "quantidade": 11 }
+
+### Remover o teclado
+DELETE {{base}}/carrinho/itens/1
+X-Cliente-Id: ana
+
+### Fechar o pedido da Ana
+POST {{base}}/pedidos
+X-Cliente-Id: ana
+
+### Pedidos da Ana
+GET {{base}}/pedidos
+X-Cliente-Id: ana
+
+### O Bruno tentando ver o pedido 1 da Ana (404: o pedido não é dele)
+GET {{base}}/pedidos/1
+X-Cliente-Id: bruno

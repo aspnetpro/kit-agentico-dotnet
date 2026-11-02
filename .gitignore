@@ -1,0 +1,16 @@
+# .NET
+bin/
+obj/
+*.user
+.vs/
+.idea/
+TestResults/
+
+# Segredos e configurações locais
+.env
+.env.*
+appsettings.Production.json
+**/secrets/
+
+# Claude Code: ajustes pessoais (o settings.json do projeto é versionado)
+.claude/settings.local.json
